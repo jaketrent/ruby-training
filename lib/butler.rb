@@ -4,7 +4,7 @@ class Butler < ManServant
 
   def open_door which="front"
     self.serve_me
-    if (["bathroom", "bedroom"].include? which) then
+    if (["bathroom", "bedroom", "safe"].include? which) then
       puts "I'm sorry.  I cannot open that door"
     else
       puts "Opening the #{which} door"

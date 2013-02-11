@@ -19,16 +19,26 @@ describe Butler do
       butler.open_door "closet"
     end
 
+    it "should open more specified doors" do
+      butler.should_receive(:puts).with "Opening the laundry door"
+      butler.open_door "laundry"
+    end
+
     describe "private doors" do
 
-      it "should not open the bathroom doom" do
+      it "should not open the bathroom door" do
         butler.should_receive(:puts).with "I'm sorry.  I cannot open that door"
         butler.open_door "bathroom"
       end
 
-      it "should not open the bedroom doom" do
+      it "should not open the bedroom door" do
         butler.should_receive(:puts).with "I'm sorry.  I cannot open that door"
         butler.open_door "bedroom"
+      end
+
+      it "should not open the safe door" do
+        butler.should_receive(:puts).with "I'm sorry.  I cannot open that door"
+        butler.open_door "safe"
       end
 
     end
