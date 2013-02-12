@@ -15,7 +15,7 @@ describe Recipe do
       Recipe.new @title, @ingredients, @instructions
     end
 
-    it "should take title, ingredients, and instructions" do
+    it "should take title, ingredients, and instructions, no optional params" do
       recipe.should be_an_instance_of Recipe
     end
 
@@ -31,10 +31,15 @@ describe Recipe do
       recipe.instructions.should eq @instructions
     end
 
-    describe "input validation" do
+    describe "optionaly allows servings" do
 
-      it "should require at least one ingredient" do
-        # recipe.
+      let(:servings) { "Test num servings" }
+      let(:recipe) do
+        recipe = Recipe.new @title, @ingredients, @instructions, servings
+      end
+      
+      it "should store a serving" do
+        recipe.servings.should eq servings
       end
 
     end
