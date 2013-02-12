@@ -2,9 +2,11 @@ class Recipe
 
   def initialize params, ingredients=nil, instructions=nil, servings=nil
     params = parse_params params, ingredients, instructions, servings
-    
+
     params.each do |k,v|
-      instance_variable_set("@#{k}", v) unless v.nil?
+      if respond_to? k and !v.nil? then
+        instance_variable_set "@#{k}", v
+      end
     end
   end
 
