@@ -22,9 +22,12 @@ class Recipe
   attr_reader :title, :ingredients, :instructions, :servings
   #attr_accessor
   
-  def include? ingred_to_check
-    found = @ingredients.find_all do |ingred|
-      ingred.include? ingred_to_check
+  def include? *ingreds_to_check
+    found = Array.new
+    ingreds_to_check.each do |check_ingred|
+      found = found + @ingredients.find_all do |ingred|
+        ingred.include? check_ingred
+      end
     end
     found.count > 0
   end

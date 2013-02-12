@@ -73,12 +73,13 @@ describe Recipe do
   describe "#include?" do
 
     let(:title) { "Test title" }
+    let(:ingred1) { "Test ingred 1" }
+    let(:ingred2) { "Drastically different second ingredient" }
     let(:instructions) { ["Test instruction 1"] }
     let(:servings) { "Test num servings" }
     
     describe "single ingredient checks" do
 
-      let(:ingred1) { "Test ingred 1" }
       let(:recipe) do
         recipe = Recipe.new title, [ingred1], instructions
       end
@@ -93,6 +94,34 @@ describe Recipe do
 
       it "matches single, substring ingredients" do
         expect(recipe.include? ingred1[3..-3]).to eq true
+      end
+
+    end
+
+    describe "multiple OR ingredient checks" do
+      
+      let(:recipe) do
+        recipe = Recipe.new title, [ingred1, ingred2], instructions
+      end
+
+      it "wont match if all ingredients are not included" do
+        expect(recipe.include? "crazy", "unincluded", "stuff").to eq false
+      end
+
+      it "will match if one exact ingredient is included" do
+        expect(recipe.include? "crazy", ingred1, "stuff").to eq true
+      end
+
+      it "will match if multiple exact ingredients are included" do
+        expect(recipe.include? "crazy", ingred1, ingred2).to eq true
+      end
+
+      it "will match if all exact ingredients are included" do
+        expect(recipe.include? ingred1, ingred2).to eq true
+      end
+
+      it "will match if multiple substring ingredients are included" do
+        expect(recipe.include? ingred1[0..-5], ingred2[2..-2]).to eq true
       end
 
     end
