@@ -24,9 +24,9 @@ class Recipe
   
   def include? ingred_to_check
     found = @ingredients.find_all do |ingred|
-      ingred == ingred_to_check
+      ingred.include? ingred_to_check
     end
-    found != nil and found.count > 0
+    found.count > 0
   end
 
 end

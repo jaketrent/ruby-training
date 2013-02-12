@@ -79,15 +79,20 @@ describe Recipe do
     describe "single ingredient checks" do
 
       let(:ingred1) { "Test ingred 1" }
+      let(:recipe) do
+        recipe = Recipe.new title, [ingred1], instructions
+      end
 
       it "wont match for obviously wrong single value" do
-        recipe = Recipe.new title, [ingred1], instructions
         expect(recipe.include? "asdfasdfasdf").to eq false
       end
 
       it "matches single, exact ingredient" do
-        recipe = Recipe.new title, [ingred1], instructions
         expect(recipe.include? ingred1).to eq true
+      end
+
+      it "matches single, substring ingredients" do
+        expect(recipe.include? ingred1[3..-3]).to eq true
       end
 
     end
