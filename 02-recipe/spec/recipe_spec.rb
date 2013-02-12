@@ -85,15 +85,15 @@ describe Recipe do
       end
 
       it "wont match for obviously wrong single value" do
-        expect(recipe.include? "asdfasdfasdf").to eq false
+        expect(recipe.include? "asdfasdfasdf").to be_false
       end
 
       it "matches single, exact ingredient" do
-        expect(recipe.include? ingred1).to eq true
+        expect(recipe.include? ingred1).to be_true
       end
 
       it "matches single, substring ingredients" do
-        expect(recipe.include? ingred1[3..-3]).to eq true
+        expect(recipe.include? ingred1[3..-3]).to be_true
       end
 
     end
@@ -105,23 +105,23 @@ describe Recipe do
       end
 
       it "wont match if all ingredients are not included" do
-        expect(recipe.include? "crazy", "unincluded", "stuff").to eq false
+        expect(recipe.include? "crazy", "unincluded", "stuff").to be_false
       end
 
       it "will match if one exact ingredient is included" do
-        expect(recipe.include? "crazy", ingred1, "stuff").to eq true
+        expect(recipe.include? "crazy", ingred1, "stuff").to be_true
       end
 
       it "will match if multiple exact ingredients are included" do
-        expect(recipe.include? "crazy", ingred1, ingred2).to eq true
+        expect(recipe.include? "crazy", ingred1, ingred2).to be_true
       end
 
       it "will match if all exact ingredients are included" do
-        expect(recipe.include? ingred1, ingred2).to eq true
+        expect(recipe.include? ingred1, ingred2).to be_true
       end
 
       it "will match if multiple substring ingredients are included" do
-        expect(recipe.include? ingred1[0..-5], ingred2[2..-2]).to eq true
+        expect(recipe.include? ingred1[0..-5], ingred2[2..-2]).to be_true
       end
 
     end

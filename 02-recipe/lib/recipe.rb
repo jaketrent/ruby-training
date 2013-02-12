@@ -4,7 +4,7 @@ class Recipe
     params = parse_params params, ingredients, instructions, servings
 
     params.each do |k,v|
-      if respond_to? k and !v.nil? then
+      if respond_to? k and !v.nil?
         instance_variable_set "@#{k}", v
       end
     end
