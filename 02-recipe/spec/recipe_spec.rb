@@ -70,4 +70,28 @@ describe Recipe do
 
   end
 
+  describe "#include?" do
+
+    let(:title) { "Test title" }
+    let(:instructions) { ["Test instruction 1"] }
+    let(:servings) { "Test num servings" }
+    
+    describe "single ingredient checks" do
+
+      let(:ingred1) { "Test ingred 1" }
+
+      it "wont match for obviously wrong single value" do
+        recipe = Recipe.new title, [ingred1], instructions
+        expect(recipe.include? "asdfasdfasdf").to eq false
+      end
+
+      it "matches single, exact ingredient" do
+        recipe = Recipe.new title, [ingred1], instructions
+        expect(recipe.include? ingred1).to eq true
+      end
+
+    end
+
+  end
+
 end
