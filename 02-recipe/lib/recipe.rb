@@ -25,7 +25,7 @@ class Recipe
   def include? *ingreds_to_check
     found = Array.new
     ingreds_to_check.each do |check_ingred|
-      found = found + @ingredients.find_all do |ingred|
+      found = found + ingredients.find_all do |ingred|
         ingred.include? check_ingred
       end
     end
