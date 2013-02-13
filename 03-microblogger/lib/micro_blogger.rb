@@ -10,10 +10,16 @@ class MicroBlogger
     @client ||= JumpstartAuth.twitter
   end
 
+  def valid_tweet_length? msg
+    msg.length <= 140
+  end
+
   def tweet msg
-    if msg.length <= 140
-      client.update(msg)
-    end
+    client.update(msg) if valid_tweet_length? msg
+  end
+
+  def dm username, msg
+    client.update("d #{username} #{msg}") if valid_tweet_length? msg
   end
 
   def run
@@ -27,9 +33,12 @@ class MicroBlogger
   end
 
   def process_command input
-    command, rest = input.split(" ", 2)
+    command, rest = input.split(" ", 2)    
     case command
       when "tweet" then tweet rest
+      when "dm" then 
+        username, msg = rest.split(" ", 2)
+        dm username, msg
     end
   end
 

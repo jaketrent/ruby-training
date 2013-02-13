@@ -3,7 +3,7 @@ require "micro_blogger"
 
 describe MicroBlogger do
   
-  # or use stub()
+  # use either mock() or stub()
   let(:fake_client) { stub("Fake Twitter Client") }
 
   let(:blogger) do
@@ -26,23 +26,43 @@ describe MicroBlogger do
 
     it "can tweet with abandon" do
       msg = "message to tweet"
-      fake_client.should_receive(:update).with(msg)
+      fake_client.should_receive(:update).with msg
       blogger.tweet msg
     end
 
     it "will not allow tweets over 140 characters" do
       msg = "message that's too long".ljust(141, "*")
-      fake_client.should_not_receive(:update).with(msg)
+      fake_client.should_not_receive(:update).with anything
       blogger.tweet msg
+    end
+
+  end
+
+  describe "#dm" do
+
+    it "should send a dm" do
+      fake_client.should_receive(:update).with "d username message"
+      blogger.dm "username", "message"
+    end
+
+    it "should not allow dms over 140 chars" do
+      msg = "message that's too long".ljust(141, "*")
+      fake_client.should_not_receive(:update).with anything
+      blogger.dm "username", msg
     end
 
   end
 
   describe "#process_command" do
 
-    it "should send tweets" do
-      fake_client.should_receive(:update).with("My message")
+    it "should call tweet cmd" do
+      blogger.should_receive(:tweet).with("My message")
       blogger.process_command("tweet My message")
+    end
+
+    it "should call dm cmd" do
+      blogger.should_receive(:dm).with "username", "here's a dm for you"
+      blogger.process_command "dm username here's a dm for you"
     end
 
     it "should ignore random commands" do
