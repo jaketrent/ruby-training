@@ -99,4 +99,14 @@ describe MicroBlogger do
 
   end
 
+  describe "#followers_rank" do
+
+    it "should return ranked friends and scores" do
+      blogger.stub(:followers).and_return(["barackobama", "michelleobama", "octanner", "jaketrent", "j3"])
+      result = blogger.followers_rank
+      expect(result).to eq ["barackobama", "michelleobama", "j3", "octanner", "jaketrent"]
+    end
+
+  end
+
 end

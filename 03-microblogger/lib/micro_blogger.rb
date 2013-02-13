@@ -1,5 +1,8 @@
 require "jumpstart_auth"
-require 'bitly'
+require "bitly"
+require "klout"
+
+Klout.api_key = 'xu9ztgnacmjx3bu82warbr3h'
 
 class TweetAction
   def self.apply?(criteria)
@@ -29,7 +32,7 @@ end
 
 class MicroBlogger
 
-  attr_reader :bitly
+  attr_reader :bitly, :klout
 
   def initialize
     Bitly.use_api_version_3
@@ -49,7 +52,8 @@ class MicroBlogger
   end
 
   def shorten_urls msg
-    url_regex = /https?:\/\/[^\s]*/
+    # or use uri.extract()
+    url_regex = /https?:\/\/[^\s]+/
     url_occurrences = msg.scan(url_regex)
     url_occurrences.each do |url|
       msg = msg.gsub(url, bitly.shorten(url).short_url)
@@ -67,6 +71,20 @@ class MicroBlogger
 
   def actions 
     @actions ||= [TweetAction, DmAction, NoAction]
+  end
+
+  def followers
+    client.followers.map {|follower| follower["screen_name"] }
+  end
+
+  def followers_rank
+    followers.sort_by { |follower| score follower }.reverse
+  end
+
+  def score screen_name
+    identity = Klout::Identity.find_by_screen_name(screen_name)
+    user = Klout::User.new(identity.id)
+    user.score.score
   end
 
   def run
