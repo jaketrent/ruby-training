@@ -1,5 +1,31 @@
 require "jumpstart_auth"
 
+class TweetAction
+  def self.apply?(criteria)
+    criteria == "tweet"
+  end
+  def self.execute(blogger, msg)
+    blogger.tweet(msg)
+  end
+end
+
+class DmAction
+  def self.apply?(criteria)
+    criteria == "dm"
+  end
+  def self.execute(blogger, username_msg)
+    username, msg = username_msg.split(" ", 2)
+    blogger.dm(username, msg)
+  end
+end
+
+class NoAction
+  def self.apply?(criteria)
+    true
+  end
+  def self.execute(blogger, msg) ; end
+end
+
 class MicroBlogger
 
   # authorize in irb
@@ -22,6 +48,10 @@ class MicroBlogger
     client.update("d #{username} #{msg}") if valid_tweet_length? msg
   end
 
+  def actions 
+    [TweetAction, DmAction, NoAction]
+  end
+
   def run
     puts "Welcome to your Twitter client"
     command = ""
@@ -34,12 +64,9 @@ class MicroBlogger
 
   def process_command input
     command, rest = input.split(" ", 2)    
-    case command
-      when "tweet" then tweet rest
-      when "dm" then 
-        username, msg = rest.split(" ", 2)
-        dm username, msg
-    end
+
+    current_action = actions.find { |action| action.apply? command }
+    current_action.execute(self, rest)
   end
 
 end
