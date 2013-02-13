@@ -94,9 +94,13 @@ class MicroBlogger
   end
 
   def score screen_name
-    identity = Klout::Identity.find_by_screen_name(screen_name)
-    user = Klout::User.new(identity.id)
-    user.score.score
+    begin
+      identity = Klout::Identity.find_by_screen_name(screen_name)
+      user = Klout::User.new(identity.id)
+      user.score.score
+    rescue Klout::NotFound
+      puts "I failed to contact Klout"
+    end
   end
 
   def run
