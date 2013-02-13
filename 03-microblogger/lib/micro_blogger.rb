@@ -81,6 +81,18 @@ class MicroBlogger
     followers.sort_by { |follower| score follower }.reverse
   end
 
+  # extra: followers with scores beside
+  def followers_with_scores_sorted
+    followers_with_scores.sorty_by { |follower,score| score }.reverse
+  end
+
+  def followers_with_scores
+    fws = followers.map do |follower|
+      [follower, score(follower)]
+    end
+    Hash[fws]
+  end
+
   def score screen_name
     identity = Klout::Identity.find_by_screen_name(screen_name)
     user = Klout::User.new(identity.id)
