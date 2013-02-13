@@ -41,7 +41,8 @@ describe MicroBlogger do
   describe "url shortening for tweets and dms" do
     it "will shorten a single url in tweets" do
       msg = "message that contains this url: http://jaketrent.com"
-      fake_client.should_receive(:update).with(/bit\.ly/).twice
+      blogger.stub(:shorten_url).with("http://jaketrent.com").and_return("http://bit.ly/something")
+      fake_client.should_receive(:update).with(/bit\.ly\/something/).twice
       fake_client.should_not_receive(:update).with /jaketrent\.com/
       blogger. tweet msg
       blogger.dm "username", msg
@@ -49,7 +50,8 @@ describe MicroBlogger do
 
     it "will a multiple same url in tweets" do
       msg = "message that contains this url: http://jaketrent.com and again http://jaketrent.com here"
-      fake_client.should_receive(:update).with(/bit\.ly/).twice
+      blogger.stub(:shorten_url).with("http://jaketrent.com").and_return("http://bit.ly/something")
+      fake_client.should_receive(:update).with(/bit\.ly\/something/).twice
       fake_client.should_not_receive(:update).with /jaketrent\.com/
       blogger. tweet msg
       blogger.dm "username", msg
@@ -57,7 +59,9 @@ describe MicroBlogger do
 
     it "will a multiple different urls in tweets" do
       msg = "message that contains this url: http://jaketrent.com and again http://rockycode.com here"
-      fake_client.should_receive(:update).with(/bit\.ly/).twice
+      blogger.stub(:shorten_url).with("http://jaketrent.com").and_return("http://bit.ly/something")
+      blogger.stub(:shorten_url).with("http://rockycode.com").and_return("http://bit.ly/somethingElse")
+      fake_client.should_receive(:update).with(/bit\.ly\/something/).twice
       fake_client.should_not_receive(:update).with /jaketrent\.com/
       fake_client.should_not_receive(:update).with /rockycode\.com/
       blogger. tweet msg

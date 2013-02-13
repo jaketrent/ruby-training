@@ -56,9 +56,13 @@ class MicroBlogger
     url_regex = /https?:\/\/[^\s]+/
     url_occurrences = msg.scan(url_regex)
     url_occurrences.each do |url|
-      msg = msg.gsub(url, bitly.shorten(url).short_url)
+      msg = msg.gsub(url, shorten_url(url))
     end
     msg
+  end
+
+  def shorten_url url
+    bitly.shorten(url).short_url
   end
 
   def tweet msg
