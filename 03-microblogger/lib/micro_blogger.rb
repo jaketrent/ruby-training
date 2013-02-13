@@ -62,7 +62,7 @@ class MicroBlogger
   end
 
   def dm username, msg
-    client.update("d #{username} #{msg}") if valid_tweet_length? msg
+    client.update(shorten_urls "d #{username} #{msg}") if valid_tweet_length? msg
   end
 
   def actions 

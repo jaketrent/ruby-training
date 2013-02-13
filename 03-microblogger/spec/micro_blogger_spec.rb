@@ -36,30 +36,33 @@ describe MicroBlogger do
       blogger.tweet msg
     end
 
-    describe "url shortening" do
-      it "will shorten a single url in tweets" do
-        msg = "message that contains this url: http://jaketrent.com"
-        fake_client.should_receive(:update).with /bit\.ly/
-        fake_client.should_not_receive(:update).with /jaketrent\.com/
-        blogger. tweet msg
-      end
+  end
 
-      it "will a multiple same url in tweets" do
-        msg = "message that contains this url: http://jaketrent.com and again http://jaketrent.com here"
-        fake_client.should_receive(:update).with /bit\.ly/
-        fake_client.should_not_receive(:update).with /jaketrent\.com/
-        blogger. tweet msg
-      end
-
-      it "will a multiple different urls in tweets" do
-        msg = "message that contains this url: http://jaketrent.com and again http://rockycode.com here"
-        fake_client.should_receive(:update).with /bit\.ly/
-        fake_client.should_not_receive(:update).with /jaketrent\.com/
-        fake_client.should_not_receive(:update).with /rockycode\.com/
-        blogger. tweet msg
-      end
+  describe "url shortening for tweets and dms" do
+    it "will shorten a single url in tweets" do
+      msg = "message that contains this url: http://jaketrent.com"
+      fake_client.should_receive(:update).with(/bit\.ly/).twice
+      fake_client.should_not_receive(:update).with /jaketrent\.com/
+      blogger. tweet msg
+      blogger.dm "username", msg
     end
 
+    it "will a multiple same url in tweets" do
+      msg = "message that contains this url: http://jaketrent.com and again http://jaketrent.com here"
+      fake_client.should_receive(:update).with(/bit\.ly/).twice
+      fake_client.should_not_receive(:update).with /jaketrent\.com/
+      blogger. tweet msg
+      blogger.dm "username", msg
+    end
+
+    it "will a multiple different urls in tweets" do
+      msg = "message that contains this url: http://jaketrent.com and again http://rockycode.com here"
+      fake_client.should_receive(:update).with(/bit\.ly/).twice
+      fake_client.should_not_receive(:update).with /jaketrent\.com/
+      fake_client.should_not_receive(:update).with /rockycode\.com/
+      blogger. tweet msg
+      blogger.dm "username", msg
+    end
   end
 
   describe "#dm" do
