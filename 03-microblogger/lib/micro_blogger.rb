@@ -23,6 +23,24 @@ class DmAction
   end
 end
 
+class FollowersAction
+  def self.apply?(criteria)
+    criteria == "followers"
+  end
+  def self.execute(blogger, username_msg)
+    blogger.followers
+  end
+end
+
+class ScoreAction
+  def self.apply?(criteria)
+    criteria == "score"
+  end
+  def self.execute(blogger, username_msg)
+    blogger.followers_rank
+  end
+end
+
 class NoAction
   def self.apply?(criteria)
     true
@@ -74,11 +92,13 @@ class MicroBlogger
   end
 
   def actions 
-    @actions ||= [TweetAction, DmAction, NoAction]
+    @actions ||= [TweetAction, DmAction, FollowersAction, ScoreAction, NoAction]
   end
 
   def followers
-    client.followers.map {|follower| follower["screen_name"] }
+    follower_names = client.followers.map {|follower| follower["screen_name"] }
+    puts follower_names
+    follower_names
   end
 
   def followers_rank

@@ -96,6 +96,16 @@ describe MicroBlogger do
       blogger.process_command "dm username here's a dm for you"
     end
 
+    it "should call followers cmd" do
+      blogger.should_receive(:followers)
+      blogger.process_command "followers"
+    end
+
+    it "should call score cmd" do
+      blogger.should_receive(:followers_rank)
+      blogger.process_command "score"
+    end
+
     it "should ignore random commands" do
       fake_client.should_not_receive(:update).with("My message")
       blogger.process_command "bluebird My message"
