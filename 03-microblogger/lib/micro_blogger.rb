@@ -1,4 +1,5 @@
 require "jumpstart_auth"
+require 'bitly'
 
 class TweetAction
   def self.apply?(criteria)
@@ -28,6 +29,13 @@ end
 
 class MicroBlogger
 
+  attr_reader :bitly
+
+  def initialize
+    Bitly.use_api_version_3
+    @bitly = Bitly.new('hungryacademy', 'R_430e9f62250186d2612cca76eee2dbc6')
+  end
+
   # authorize in irb
   # load "./lib/micro_blogger.rb"
   # MicroBlogger.new
@@ -40,8 +48,17 @@ class MicroBlogger
     msg.length <= 140
   end
 
+  def shorten_urls msg
+    url_regex = /https?:\/\/[^\s]*/
+    url_occurrences = msg.scan(url_regex)
+    url_occurrences.each do |url|
+      msg = msg.gsub(url, bitly.shorten(url).short_url)
+    end
+    msg
+  end
+
   def tweet msg
-    client.update(msg) if valid_tweet_length? msg
+    client.update(shorten_urls msg) if valid_tweet_length? msg
   end
 
   def dm username, msg
@@ -49,7 +66,7 @@ class MicroBlogger
   end
 
   def actions 
-    [TweetAction, DmAction, NoAction]
+    @actions ||= [TweetAction, DmAction, NoAction]
   end
 
   def run
