@@ -8,6 +8,12 @@
 </head>
 <body>
 
+<% if flash[:notify] %>
+  <div class="flash">
+    <%= flash[:notify] %>
+  </div>
+<% end %>
+
 <%= yield %>
 
 </body>
