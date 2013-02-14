@@ -3,4 +3,6 @@ h1 = @article.title
 p
   = @article.body
 
-= link_to "All articles", articles_path
+ul
+  li = link_to "Edit article", edit_article_path(@article.id)
+  li = link_to "All articles", articles_path
