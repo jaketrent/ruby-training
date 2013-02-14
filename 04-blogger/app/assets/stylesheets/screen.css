@@ -6,6 +6,9 @@ div.field_with_errors input{border: 3px solid red}
 /*custom*/
 pre { white-space: pre-wrap; }
 
+.comments { margin-top: 30px; }
+.comment h2 { margin-left: 17px; }
+
 .nav { overflow: hidden; margin: 20px 0; }
 .nav li:after { content: "\00b7"; margin: 0 10px; }
 .nav li:last-child:after { content: '';}
