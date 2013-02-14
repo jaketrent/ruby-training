@@ -5,5 +5,5 @@ pre
 
 ul.nav
   li = link_to "Edit", edit_article_path(@article.id)
-  li = link_to "Delete", article_path(@article.id), method: :delete
+  li = link_to "Delete", article_path(@article.id), method: :delete, confirm: "Are you sure?"
   li = link_to "View All Articles", articles_path
