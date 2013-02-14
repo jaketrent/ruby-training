@@ -3,6 +3,8 @@ class Article < ActiveRecord::Base
   attr_accessible :title, :body
   has_many :comments
 
+  validates :title, :body, presence: true
+
   def ordered_comments
     comments.order("updated_at desc") if comments
   end

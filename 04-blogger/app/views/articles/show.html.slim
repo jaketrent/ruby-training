@@ -4,10 +4,10 @@ pre
   = @article.body
 
 .comments
-  = render partial: "comment", collection: @article.ordered_comments
+  = render partial: "articles/comment", collection: @article.ordered_comments
 
 .add-comment
-  = render "comment_form"
+  = render "articles/comment_form"
 
 ul.nav
   li = link_to "Edit", edit_article_path(@article.id)

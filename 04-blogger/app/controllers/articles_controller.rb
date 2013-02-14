@@ -14,9 +14,16 @@ class ArticlesController < ApplicationController
   end
 
   def create
+    # ! on ActiveRecord obj means raise exception (don't fail quietly)
     @article = Article.create params[:article]
-    flash[:notify] = "You're amazing.  Created new article '#{@article.title}'."
-    redirect_to article_path @article
+
+    if @article.valid?
+      flash[:notify] = "You're amazing.  Created new article '#{@article.title}'."
+      redirect_to article_path @article
+    else
+      flash[:notify] = "Failed article validation.  Try again."
+      render :new
+    end
   end
 
   def edit
