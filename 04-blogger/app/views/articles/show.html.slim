@@ -4,18 +4,10 @@ pre
   = @article.body
 
 .comments
-  - for c in @article.comments
-    .comment
-      h2 #{c.author} says...
-      p = c.body
+  = render "comments"
 
 .add-comment
-  = form_for [@article, @comment] do |f|
-    div = f.label :author
-    div = f.text_field :author
-    div = f.label :body
-    div = f.text_area :body
-    div = f.submit
+  = render "comment_form"
 
 ul.nav
   li = link_to "Edit", edit_article_path(@article.id)
