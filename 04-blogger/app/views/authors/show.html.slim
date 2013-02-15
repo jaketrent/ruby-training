@@ -1,0 +1,14 @@
+h1 Author: #{@author.username}
+
+p#notice = notice
+
+p
+  strong Username:
+  = @author.username
+p
+  strong Email:
+  = @author.email
+
+= link_to 'Edit', edit_author_path(@author)
+'|
+= link_to 'Back', authors_path

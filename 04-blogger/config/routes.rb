@@ -1,10 +1,18 @@
 Blogger::Application.routes.draw do
 
+  root to:"articles#index"
+
   resources :articles do
     resources :comments, only: [:create]
   end
   
   resources :tags, only: [:index, :show]
+
+  resources :authors, except: [:index]
+  resources :author_sessions, only: [ :new, :create, :destroy ]
+
+  match 'login'  => 'author_sessions#new'
+  match 'logout' => 'author_sessions#destroy'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

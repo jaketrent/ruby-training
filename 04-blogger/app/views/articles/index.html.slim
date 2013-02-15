@@ -4,6 +4,7 @@ ul
   - for art in @articles
       li = link_to art.title, art
 
-= link_to "Create article", new_article_path, class: "new_article"
+- if logged_in?
+  = link_to "Create article", new_article_path, class: "new_article"
 
 

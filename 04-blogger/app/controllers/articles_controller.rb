@@ -1,5 +1,7 @@
 class ArticlesController < ApplicationController
 
+  before_filter :require_login, except: [:index, :show]
+
   def index
     @articles = Article.all
   end
@@ -10,6 +12,7 @@ class ArticlesController < ApplicationController
   end
 
   def new
+    redirect_to(login_path) and return if not logged_in?
     @article = Article.new
   end
 
@@ -43,6 +46,15 @@ class ArticlesController < ApplicationController
     @article.destroy
     flash[:notify] = "You're awesome.  Deleted article '#{@article.title}'."
     redirect_to articles_path
+  end
+
+  private
+
+  def require_login
+    if not logged_in?
+      flash[:notify] = "You must first log in."
+      redirect_to login_path
+    end
   end
 
 end

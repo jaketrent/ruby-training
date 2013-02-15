@@ -17,6 +17,7 @@ pre
   = render "articles/comment_form"
 
 ul.nav
-  li = link_to "Edit", edit_article_path(@article.id)
-  li = link_to "Delete", article_path(@article.id), method: :delete, confirm: "Are you sure?"
+  - if logged_in?
+    li = link_to "Edit", edit_article_path(@article.id)
+    li = link_to "Delete", article_path(@article.id), method: :delete, confirm: "Are you sure?"
   li = link_to "View All Articles", articles_path
