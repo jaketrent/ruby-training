@@ -1,10 +1,15 @@
-h1 Tag: #{@tag.name}
+- if @tag
+  h1 Tag: #{@tag.name}
 
-= link_to "× Clear Filter", articles_path, class: "clear-filter"
+  = link_to "× Clear Filter", articles_path, class: "clear-filter"
 
-ul
-  - for art in @tag.articles
-    li = link_to art.title, art
+  ul
+    - for art in @tag.articles
+      li = link_to art.title, art
+- else
+  h1 Not Found
+
+  p Tag name '#{params[:id]}' is not found
 
 = link_to "All Tags", tags_path, class: "new_article"
 
