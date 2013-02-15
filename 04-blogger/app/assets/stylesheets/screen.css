@@ -6,7 +6,11 @@ div.field_with_errors input{border: 3px solid red}
 /*custom*/
 pre { white-space: pre-wrap; }
 
-.comments { margin-top: 30px; }
+.tags { color: #ababab; margin: 20px 0;}
+.tag { margin-right: 10px; }
+
+.clear-filter { text-decoration: none; color: #ababab; display: block; margin-bottom: 20px; }
+
 .comment h2 { margin-left: 17px; }
 
 .nav { overflow: hidden; margin: 20px 0; }

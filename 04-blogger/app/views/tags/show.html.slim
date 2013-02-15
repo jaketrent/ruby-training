@@ -1,0 +1,9 @@
+h1 Tag: #{@tag.name}
+
+= link_to "× Clear Filter", articles_path, class: "clear-filter"
+
+ul
+  - for art in @tag.articles
+    li = link_to art.title, art
+
+
