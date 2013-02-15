@@ -1,0 +1,5 @@
+h1 Tags
+
+ul
+  - for tag in @tags
+    li = link_to tag.name, tag_path(tag.name)

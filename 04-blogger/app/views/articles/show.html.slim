@@ -8,7 +8,7 @@ pre
     | Tags:  
     - for tag in @article.tags
       / todo make name
-      = link_to tag.name, tag_path(tag.id), class: "tag"      
+      = link_to tag.name, tag_path(tag.name), class: "tag"      
 
 .comments
   = render partial: "articles/comment", collection: @article.ordered_comments
