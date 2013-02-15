@@ -17,8 +17,8 @@ class Article < ActiveRecord::Base
 
   def tag_list= value
     new_tags = Array.new
-    value.chomp.downcase.split(/, ?/).each do |name|
-      new_tags.push Tag.find_or_create_by_name name
+    value.downcase.split(/, ?/).each do |name|
+      new_tags.push Tag.find_or_create_by_name name.strip
     end
     self.tags = new_tags
   end

@@ -5,3 +5,17 @@
 require File.expand_path('../config/application', __FILE__)
 
 Blogger::Application.load_tasks
+
+namespace :tags do
+  # desc provides entry in rake -T
+  desc "Cleanup ugly tags"
+  # is dependent on :environment step
+  task :clean => :environment do
+    puts "Cleaning"
+  end
+
+  desc "Lists all tags"
+  task :list => :environment do
+    puts Tag.all.map { |tag| tag.name }.join ", " 
+  end
+end
